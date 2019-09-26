@@ -67,10 +67,6 @@ variables de entorno:
 
 - REACT_APP_GRAPHQL_URI: `"http://URL_DE_TU_AMBIENTE_CLOUD9:30808/graphql"`
 
-- MONGO_URI: `"mongodb://root:example@mongo.default.svc.cluster.local/tasks?authSource=admin"`
-
-- MONGO_DB: `"tasks"`
-
 ### Service Frontend
 
 tipo: `NodePort`
