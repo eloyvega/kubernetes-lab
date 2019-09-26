@@ -42,7 +42,7 @@ variables de entorno:
 
 - WORKERS: `"1"`
 
-- MONGO_URI: `"mongodb://root:example@mongo.default.svc.cluster.local/tasks?authSource=admin"`
+- MONGO_URI: `"mongodb://root:root@mongo.default.svc.cluster.local/tasks?authSource=admin"`
 
 - MONGO_DB: `"tasks"`
 
