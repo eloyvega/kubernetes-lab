@@ -10,6 +10,14 @@ En este laboratorio ejecutaremos una aplicación con Kubernetes que consiste de 
 
 Crea un archio `deploy.yaml` con los siguientes elementos, recuerda separar cada uno con `---`:
 
+## Aplicar cambios
+
+Recuerda aplicar tus cambios cada vez que hagas un Deployment o Service con el siguiente comando:
+
+```
+kubectl apply -f deploy.yaml
+```
+
 ### Deployment MongoDB
 
 imagen: `mongo`
