@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo
+        ports:
+        - containerPort: 27017
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "root"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "root"
+
+---
+          
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+spec:
+  type: NodePort
+  selector:
+    app: mongo
+  ports:
+  - protocol: TCP
+    targetPort: 27017
+    port: 27017
+    nodePort: 32017
+    
+---
+
+    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: mass90/abraxas-tasks-api
+        ports:
+        - containerPort: 5000
+        env:
+        - name: WORKERS
+          value: "1"
+        - name: MONGO_URI
+          value: "mongodb://root:root@mongo.default.svc.cluster.local/tasks?authSource=admin"
+        - name: MONGO_DB
+          value: "tasks"
+          
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  type: NodePort
+  selector:
+    app: api
+  ports:
+  - protocol: TCP
+    targetPort: 5000
+    port: 5000
+    nodePort: 30808
+    
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+      - name: client
+        image: mass90/abraxas-tasks-client
+        ports:
+        - containerPort: 3000
+        env:
+        - name: REACT_APP_GRAPHQL_URI
+          value: "http://IP_PUBLICA_EC2:30808/graphql"
+          
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client
+spec:
+  type: NodePort
+  selector:
+    app: client
+  ports:
+  - protocol: TCP
+    targetPort: 3000
+    port: 3000
+    nodePort: 30300
